@@ -264,7 +264,7 @@ vector<string> LinuxParser::CpuUtilization()
     begin++;
     cpuStats = vector<string>{begin, end};
   }
-  procStatFileStream.close();
+  procStatsFileStream.close();
   return cpuStats;
 }
 
