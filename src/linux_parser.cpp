@@ -282,7 +282,26 @@ int LinuxParser::RunningProcesses()
 // ------------------  Processes  ------------------------------------
 //--------------------------------------------------------------------
 
-// TODO: Read and return the number of active jiffies for a PID
+/**
+ * @brief Read and return the number of active jiffies for a PID
+ *
+ * Equation:
+ *
+ *  #14 utime - CPU time spent in user code, measured in clock ticks
+ *  #15 stime - CPU time spent in kernel code, measured in clock ticks
+ *  #16 cutime - Waited-for children's CPU time spent in user code (in clock ticks)
+ *  #17 cstime - Waited-for children's CPU time spent in kernel code (in clock ticks)
+ *  #22 starttime - Time when the process started, measured in clock ticks
+ *
+ *  Hertz (number of clock ticks per second) of your system = sysconf(_SC_CLK_TK)
+ *
+ *
+ *  total_time = utime + stime
+ *  total_time = total_time + cutime + cstime
+ *  total_time /= HERTZ
+ * @param pid Process ID
+ * @return long Active Time of the Process
+ */
 long LinuxParser::ActiveJiffies(int pid)
 {
   long activeJiffies = 0;
