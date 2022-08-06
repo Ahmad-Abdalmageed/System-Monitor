@@ -3,13 +3,21 @@
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization()
 {
-    // Calculate Deltas of Active and Idle Times
-    float activeJiffiesDelta = LinuxParser::ActiveJiffies() - prevReadActiveJiffies_;
-    float idleJiffiesDelta = LinuxParser::IdleJiffies() - prevReadIdleJiffies_;
+  float idle = LinuxParser::IdleJiffies();
+  float active = LinuxParser::ActiveJiffies();
 
-    // Update the Previous Readings
-    prevReadActiveJiffies_ = LinuxParser::ActiveJiffies();
-    prevReadIdleJiffies_ = LinuxParser::IdleJiffies();
+  float prevTotal = prevReadActiveJiffies_ + prevReadIdleJiffies_;
+  float total = idle + active;
 
-    return activeJiffiesDelta - idleJiffiesDelta / activeJiffiesDelta;
+  // Differentiate
+  float totalDelta = total - prevTotal;
+  float idleDelta = idle - prevReadIdleJiffies_;
+
+  float cpu_percentage = (float)(totalDelta - idleDelta) / totalDelta;
+
+  // Update Readings
+  prevReadActiveJiffies_ = active;
+  prevReadIdleJiffies_ = idle;
+
+  return cpu_percentage;
 }
