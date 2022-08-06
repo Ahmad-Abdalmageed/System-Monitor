@@ -1,8 +1,8 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include <string>
 #include "linux_parser.h"
+#include <string>
 
 /*
 Basic class for Process representation
@@ -14,18 +14,22 @@ public:
   // Constructors
   Process(int pid);
 
-  int Pid();                              // TODO: See src/process.cpp
-  std::string User();                     // TODO: See src/process.cpp
-  std::string Command();                  // TODO: See src/process.cpp
-  float CpuUtilization();                 // TODO: See src/process.cpp
-  std::string Ram();                      // TODO: See src/process.cpp
-  long int UpTime();                      // TODO: See src/process.cpp
-  bool operator<(Process const &a) const; // TODO: See src/process.cpp
+  int Pid();
+  std::string User();
+  std::string Command();
+  float CpuUtilization();
+  std::string Ram();
+  long int UpTime();
+  bool operator<(Process const &a) const;
 
   // TODO: Declare any necessary private members
 private:
-  unsigned int pid_;
+  unsigned int pid_ = 0;
   float cpu_;
+  std::string command_;
+  std::string ramUsed_;
+  std::string usr_;
+  long int upTime_;
 };
 
 #endif

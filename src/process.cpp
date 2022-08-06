@@ -22,10 +22,7 @@ Process::Process(int pid) : pid_(pid) {}
  *
  * @return int
  */
-int Process::Pid()
-{
-  return this->pid_;
-}
+int Process::Pid() { return pid_; }
 
 /**
  * @brief Return this process's CPU utilization
@@ -35,8 +32,9 @@ int Process::Pid()
 float Process::CpuUtilization()
 {
   float totaltimeOverHertz = (float)LinuxParser::ActiveJiffies(pid_);
-  float secods = (float)LinuxParser::UpTime() - (float)LinuxParser::UpTime(pid_) / sysconf(_SC_CLK_TCK);
-  cpu_ = 100 * (totaltimeOverHertz / secods);
+  float secods = (float)LinuxParser::UpTime() -
+                 (float)LinuxParser::UpTime(pid_) / sysconf(_SC_CLK_TCK);
+  cpu_ = (totaltimeOverHertz / secods);
   return cpu_;
 }
 
@@ -47,7 +45,8 @@ float Process::CpuUtilization()
  */
 string Process::Command()
 {
-  return LinuxParser::Command(pid_);
+  command_ = LinuxParser::Command(pid_);
+  return command_;
 }
 
 /**
@@ -57,7 +56,8 @@ string Process::Command()
  */
 string Process::Ram()
 {
-  return LinuxParser::Ram(pid_);
+  ramUsed_ = LinuxParser::Ram(pid_);
+  return ramUsed_;
 }
 
 /**
@@ -67,7 +67,8 @@ string Process::Ram()
  */
 string Process::User()
 {
-  return LinuxParser::User(pid_);
+  usr_ = LinuxParser::User(pid_);
+  return usr_;
 }
 
 /**
@@ -77,7 +78,8 @@ string Process::User()
  */
 long int Process::UpTime()
 {
-  return LinuxParser::UpTime(pid_);
+  upTime_ = LinuxParser::UpTime(pid_);
+  return upTime_;
 }
 
 /**
@@ -89,5 +91,5 @@ long int Process::UpTime()
  */
 bool Process::operator<(Process const &a [[maybe_unused]]) const
 {
-  return cpu_ < a.cpu_;
+  return ramUsed_ < a.ramUsed_;
 }
