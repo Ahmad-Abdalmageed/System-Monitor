@@ -34,6 +34,6 @@ make build
 ./build/monitor
 ```
 
-
+***Note:*** Caught Chrome Eating my RAM :laughing:
 
 ![monitor](images/monitor.jpeg)
